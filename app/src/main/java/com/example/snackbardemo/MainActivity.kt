@@ -1,6 +1,7 @@
 package com.example.snackbardemo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,11 +39,16 @@ val scaffoldState:ScaffoldState = rememberScaffoldState()
     Scaffold(scaffoldState = scaffoldState) {
         Button(onClick = {
             coroutineScope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(
+               val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
                     message = "This is message",
                     actionLabel = "Undo",
                     duration = SnackbarDuration.Long
                 )
+                when(snackBarResult){
+                    SnackbarResult.ActionPerformed -> Log.i("MYTAG","action label clicked")
+                    SnackbarResult.Dismissed -> Log.i("MYTAG","dismissed")
+                }
+
             }
         }) {
           Text(text = "Display SnackBar")
